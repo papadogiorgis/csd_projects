@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HY360 PROJECT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #4CAF50;
+            font-size: 36px;
+        }
+        .menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+        .menu button {
+            text-decoration: none;
+            color: #fff;
+            background-color: #4CAF50;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 8px;
+            width: 250px;
+            text-align: center;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .menu button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .menu button:active {
+            background-color: #388e3c;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Form styles */
+        label {
+            font-size: 16px;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Κεντρικό Μενού - HY360 PROJECT</h1>
+
+    <div class="menu">
+        <button id="createCustomerBtn">Εγγραφή Νέου Πελάτη</button>
+        <button id="addCardBtn">Προσθήκη Επιπλέον Κάρτας</button>
+        <button id="createEventBtn">Δημιουργία Νέας Εκδήλωσης</button>
+        <button id="searchTicketsBtn">Αναζήτηση Διαθέσιμων Θέσεων</button>
+        <button id="makeReservationBtn">Κράτηση Εισιτηρίων</button>
+        <button id="cancelReservationBtn">Ακύρωση Κράτησης</button>
+        <button id="cancelEventBtn">Ακύρωση Εκδήλωσης</button>
+    </div>
+
+    <h2>ΕΡΩΤΗΣΕΙΣ</h2>
+    <div class="menu">
+        <button id="viewAvailableSeatsBtn">Κατάσταση Διαθέσιμων και Κρατημένων Θέσεων</button>
+        <button id="viewRevenueByEventBtn">Έσοδα από Πωλήσεις Ανά Εκδήλωση</button>
+        <button id="mostPopularEventBtn">Δημοφιλέστερη Εκδήλωση Βάσει Κρατήσεων</button>
+        <button id="eventWithMostRevenueBtn">Εκδήλωση με τα Πιο Πολλά Έσοδα</button>
+        <button id="viewReservationsByPeriodBtn">Προβολή Κρατήσεων Ανά Χρονική Περίοδο</button>
+        <button id="totalRevenueByTicketTypeBtn">Συνολικά Έσοδα από Πώληση VIP ή Γενικών Εισιτηρίων</button>
+    </div>
+
+
+    <!-- Modal for Creating Customer -->
+<div id="customerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeCustomerModal">&times;</span>
+        <h2>Στοιχεία Πελάτη</h2>
+        <form id="customerForm" action="CustomerRegistration" method="POST" >
+            <label for="fullName">Ονοματεπώνυμο</label>
+            <input type="text" id="fullName" name="fullName" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="cardNumber">Αριθμός Κάρτας</label>
+            <input type="text" id="cardNumber" name="cardNumber" required>
+
+            <label for="expiryDate">Ημερομηνία Λήξης (MM/YY)</label>
+            <input type="text" id="expiryDate" name="expiryDate" required pattern="\d{2}/\d{2}" title="Πρέπει να έχει τη μορφή MM/YY">
+
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" required pattern="\d{3}" title="Πρέπει να είναι τριψήφιος αριθμός">
+
+            <input type="submit" value="Υποβολή">
+        </form>
+
+        <!-- Message Panel -->
+        <div id="messagePanel" style="display: none; margin-top: 20px; font-weight: bold;">
+            <!-- This is where the success or failure messages will appear -->
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal for Adding Extra Credit Card -->
+<div id="addCardModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeAddCardModal">&times;</span>
+        <h2>Προσθήκη Επιπλέον Κάρτας</h2>
+        <form id="addCardForm" action="ExtraCard" method="POST">
+            <label for="customerId">ID Πελάτη</label>
+            <input type="text" id="customerId" name="customerId" required>
+
+            <label for="cardNumber">Αριθμός Κάρτας</label>
+            <input type="text" id="cardNumber" name="cardNumber" required>
+
+            <label for="expiryDate">Ημερομηνία Λήξης (MM/YY)</label>
+            <input type="text" id="expiryDate" name="expiryDate" required pattern="\d{2}/\d{2}" title="Πρέπει να έχει τη μορφή MM/YY">
+
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" required pattern="\d{3}" title="Πρέπει να είναι τριψήφιος αριθμός">
+
+            <input type="submit" value="Προσθήκη Κάρτας">
+        </form>
+
+        <!-- Success/Error Message Panel -->
+        <div id="addCardMessagePanel" style="display: none; margin-top: 20px;">
+            <!-- Success or error message will be shown here -->
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Modal for Creating Event -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeEventModal">&times;</span>
+        <h2>Δημιουργία Εκδήλωσης</h2>
+        <form id="eventForm" action="EventCreation" method="POST">
+            <label for="eventName">Όνομα Εκδήλωσης</label>
+            <input type="text" id="eventName" name="eventName" required>
+
+            <label for="eventDate">Ημερομηνία</label>
+            <input type="date" id="eventDate" name="eventDate" required>
+
+            <label for="eventTime">Ώρα</label>
+            <input type="time" id="eventTime" name="eventTime" required>
+
+            <label for="eventType">Τύπος Εκδήλωσης</label>
+            <input type="text" id="eventType" name="eventType" required>
+
+            <label for="totalCapacity">Συνολική Χωρητικότητα</label>
+            <input type="number" id="totalCapacity" name="totalCapacity" required>
+
+            <label for="vipCapacity">Χωρητικότητα VIP</label>
+            <input type="number" id="vipCapacity" name="vipCapacity" required>
+
+            <label for="generalCapacity">Χωρητικότητα Γενικής Εισόδου</label>
+            <input type="number" id="generalCapacity" name="generalCapacity" required>
+
+            <label for="vipTicketPrice">Τιμή VIP Εισιτηρίου</label>
+            <input type="number" id="vipTicketPrice" name="vipTicketPrice" required>
+
+            <label for="generalTicketPrice">Τιμή Εισιτηρίου Γενικής Εισόδου</label>
+            <input type="number" id="generalTicketPrice" name="generalTicketPrice" required>
+
+            <input type="submit" value="Δημιουργία Εκδήλωσης">
+        </form>
+
+        <!-- Success/Error Message Panel -->
+        <div id="eventMessagePanel" style="display: none; margin-top: 20px;">
+            <!-- Success or error message will be shown here -->
+        </div>
+    </div>
+</div>
+
+
+    <!-- Modal for Searching Tickets -->
+<div id="searchTicketsModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeSearchTicketsModal">&times;</span>
+        <h2>Αναζήτηση Διαθέσιμων Θέσεων</h2>
+        <form id="searchTicketsForm" action="AvailableSeats" method="POST">
+            <label for="eventId">Event ID</label>
+            <input type="number" id="eventId" name="eventId" required>
+
+            <label>Τύπος Θέσης:</label>
+            <div>
+                <input type="checkbox" id="generalSeats" name="seatType" value="general" /> Γενικής Εισόδου
+                <input type="checkbox" id="vipSeats" name="seatType" value="vip" /> VIP
+            </div>
+
+            <input type="submit" value="Αναζήτηση Θέσεων">
+        </form>
+
+        <!-- Success/Error Message Panel -->
+        <div id="searchMessagePanel" style="display: none; margin-top: 20px;">
+            <!-- Success or error message will be shown here -->
+        </div>
+
+        <!-- Available Seats Display -->
+        <div id="availableSeatsPanel" style="display: none; margin-top: 20px;">
+            <strong>Διαθέσιμες Θέσεις:</strong>
+            <ul id="availableSeatsList"></ul>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal for Making Reservation -->
+<div id="makeReservationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeMakeReservationModal">&times;</span>
+        <h2>Κράτηση Εισιτηρίων</h2>
+        <form id="makeReservationForm" action="MakeReservation" method="POST">
+            <label for="customerId">Customer ID</label>
+            <input type="number" id="customerId" name="customerId" required>
+
+            <label for="eventId">Event ID</label>
+            <input type="number" id="eventId" name="eventId" required>
+
+            <label for="generalTickets">Αριθμός Εισιτηρίων Γενικής Εισόδου</label>
+            <input type="number" id="generalTickets" name="generalTickets" required>
+
+            <label for="vipTickets">Αριθμός VIP Εισιτηρίων</label>
+            <input type="number" id="vipTickets" name="vipTickets" required>
+
+            <input type="submit" value="Κράτηση Εισιτηρίων">
+        </form>
+
+        <!-- Success/Failure Message Panel -->
+        <div id="reservationMessagePanel" style="display: none; margin-top: 20px;">
+            <!-- Success or error message will be shown here -->
+        </div>
+
+        <!-- Reservation Details -->
+        <div id="reservationDetailsPanel" style="display: none; margin-top: 20px;">
+            <strong>Ημερομηνία Κράτησης:</strong> <span id="reservationDate"></span><br>
+            <strong>Συνολικό Ποσό Πληρωμής:</strong> <span id="paymentAmount"></span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Cancelling Reservation -->
+<div id="cancelReservationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeCancelReservationModal">&times;</span>
+        <h2>Ακύρωση Κράτησης</h2>
+        <form id="cancelReservationForm" action="CancelReservation" method="POST">
+            <label for="resId">Αριθμός Κράτησης</label>
+            <input type="text" id="resId" name="resId" required> <!-- Updated name attribute -->
+            <input type="submit" value="Ακύρωση Κράτησης">
+        </form>
+        <div id="cancelReservationMessage"></div> <!-- Display success or error message -->
+    </div>
+</div>
+
+<!-- Modal for Cancelling Event -->
+<div id="cancelEventModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeCancelEventModal">&times;</span>
+        <h2>Ακύρωση Εκδήλωσης</h2>
+        <form id="cancelEventForm" action="CancelEvent" method="POST">
+            <label for="eventId">Αριθμός Εκδήλωσης</label>
+            <input type="text" id="eventId" name="eventId" required>
+            <input type="submit" value="Ακύρωση Εκδήλωσης">
+        </form>
+        <!-- Div to display success or error message -->
+        <div id="cancelEventMessage"></div>
+    </div>
+</div>
+
+    <!-- Modals for New Queries -->
+
+    <!-- Modal for Viewing Available Seats -->
+<div id="availableSeatsModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeAvailableSeatsModal">&times;</span>
+        <h2>Κατάσταση Διαθέσιμων και Κρατημένων Θέσεων</h2>
+        <form id="availableSeatsForm" action="SeatsState" method="POST">
+            <label for="eventAvailableSeats">Αριθμός Εκδήλωσης</label>
+            <input type="text" id="eventId" name="eventId" required>
+            <input type="submit" value="Προβολή Θέσεων">
+        </form>
+        <div id="seatsStatus"></div> <!-- Section for displaying seat information -->
+    </div>
+</div>
+
+<!-- Modal for Viewing Revenue by Event -->
+<div id="revenueByEventModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeRevenueByEventModal">&times;</span>
+        <h2>Έσοδα από Πωλήσεις Ανά Εκδήλωση</h2>
+        <form id="revenueByEventForm" action="RevenueByEvent" method="POST">
+            <label for="eventRevenue">Εκδήλωση</label>
+            <input type="text" id="eventId" name="eventId" required>
+            <input type="submit" value="Προβολή Έσοδων">
+        </form>
+        <div id="revenueResult"></div> <!-- This will display the revenue -->
+    </div>
+</div>
+
+    <!-- Modal for Most Popular Event -->
+<div id="popularEventModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closePopularEventModal">&times;</span>
+        <h2>Δημοφιλέστερη Εκδήλωση Βάσει Κρατήσεων</h2>
+        <form id="popularEventForm" action="PopularEvent" method="POST">
+            <input type="submit" value="Προβολή Δημοφιλέστερης Εκδήλωσης">
+        </form>
+        <div id="popularEventResult"></div> <!-- This will display the result -->
+    </div>
+</div>
+
+    <!-- Modal for Event with Most Revenue in Date Range -->
+<div id="eventWithMostRevenueModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeEventWithMostRevenueModal">&times;</span>
+        <h2>Εκδήλωση με τα Πιο Πολλά Έσοδα σε Χρονικό Εύρος</h2>
+        <form id="eventWithMostRevenueForm" action="MostProfitable" method="POST">
+            <label for="startDate">Ημερομηνία Έναρξης</label>
+            <input type="date" id="startDate" name="startDate" required>
+            
+            <label for="endDate">Ημερομηνία Λήξης</label>
+            <input type="date" id="endDate" name="endDate" required>
+            
+            <input type="submit" value="Προβολή Εκδήλωσης με Πιο Πολλά Έσοδα">
+        </form>
+        <div id="eventWithMostRevenueResult"></div> <!-- This will display the result -->
+    </div>
+</div>
+
+<script>
+    // Close modal
+    document.getElementById('closeEventWithMostRevenueModal').onclick = function() {
+        document.getElementById('eventWithMostRevenueModal').style.display = 'none';
+    };
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('eventWithMostRevenueModal')) {
+            document.getElementById('eventWithMostRevenueModal').style.display = 'none';
+        }
+    };
+</script>
+
+    <!-- Modal for Viewing Reservations by Period -->
+<div id="reservationsByPeriodModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeReservationsByPeriodModal">&times;</span>
+        <h2>Προβολή Κρατήσεων Ανά Χρονική Περίοδο</h2>
+        <form id="reservationsByPeriodForm" action="ReservationsByPeriod" method="POST">
+            <label for="startDate">Αρχική Ημερομηνία</label>
+            <input type="date" id="startDate" name="startDate" required>
+            <label for="endDate">Τελική Ημερομηνία</label>
+            <input type="date" id="endDate" name="endDate" required>
+            <input type="submit" value="Προβολή Κρατήσεων">
+        </form>
+        <div id="reservationsResult"></div> <!-- This will display the reservations -->
+    </div>
+</div>
+
+    <!-- Modal for Total Revenue by Ticket Type -->
+<div id="totalRevenueByTicketTypeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeTotalRevenueByTicketTypeModal">&times;</span>
+        <h2>Συνολικά Έσοδα από Πώληση VIP ή Γενικών Εισιτηρίων</h2>
+        <form id="totalRevenueByTicketTypeForm" action="RevenueByTicketType" method="POST">
+            <!-- Ticket Type Selection -->
+            <label for="ticketType">Τύπος Εισιτηρίου</label><br>
+            <input type="radio" id="vipTicket" name="ticketType" value="VIP" required>
+            <label for="vipTicket">VIP</label><br>
+            <input type="radio" id="generalTicket" name="ticketType" value="General" required>
+            <label for="generalTicket">Γενικό</label><br>
+
+            <!-- Event selection or checkbox for all events -->
+            <input type="checkbox" id="allEvents" name="allEvents">
+            <label for="allEvents">Από όλες τις εκδηλώσεις</label><br>
+            
+            <!-- Event ID input will appear only when "Από όλες τις εκδηλώσεις" is unchecked -->
+            <div id="eventIdContainer">
+                <label for="eventId">Event ID (εισάγετε το event ID αν δεν είναι τικαρισμένο το κουτάκι)</label><br>
+                <input type="text" id="eventId" name="eventId" placeholder="Εισάγετε Event ID"><br>
+            </div>
+
+            <input type="submit" value="Προβολή Συνολικών Εσόδων">
+        </form>
+        <div id="revenueResult"></div> <!-- Display the result here -->
+    </div>
+</div>
+
+<script>
+    // Function to toggle the Event ID field based on the checkbox
+    function toggleEventIdField() {
+        const allEventsChecked = document.getElementById('allEvents').checked;
+        const eventIdContainer = document.getElementById('eventIdContainer');
+        
+        // If 'Από όλες τις εκδηλώσεις' is checked, hide the Event ID input
+        if (allEventsChecked) {
+            eventIdContainer.style.display = 'none';
+        } else {
+            eventIdContainer.style.display = 'block';
+        }
+    }
+
+    // Call toggleEventIdField on page load to show/hide based on initial checkbox state
+    window.onload = function() {
+        toggleEventIdField(); // This ensures the correct state is displayed when the page first loads
+    };
+
+    // Show/hide the Event ID field when the checkbox is toggled
+    document.getElementById('allEvents').addEventListener('change', toggleEventIdField);
+</script>
+
+    <script>
+        // JavaScript to handle modal display
+        document.getElementById('viewAvailableSeatsBtn').onclick = function() {
+            document.getElementById('availableSeatsModal').style.display = 'block';
+        };
+        document.getElementById('viewRevenueByEventBtn').onclick = function() {
+            document.getElementById('revenueByEventModal').style.display = 'block';
+        };
+        document.getElementById('mostPopularEventBtn').onclick = function() {
+            document.getElementById('popularEventModal').style.display = 'block';
+        };
+        document.getElementById('eventWithMostRevenueBtn').onclick = function() {
+            document.getElementById('eventWithMostRevenueModal').style.display = 'block';
+        };
+        document.getElementById('viewReservationsByPeriodBtn').onclick = function() {
+            document.getElementById('reservationsByPeriodModal').style.display = 'block';
+        };
+        document.getElementById('totalRevenueByTicketTypeBtn').onclick = function() {
+            document.getElementById('totalRevenueByTicketTypeModal').style.display = 'block';
+        };
+
+        // Close modals
+        document.getElementById('closeAvailableSeatsModal').onclick = function() {
+            document.getElementById('availableSeatsModal').style.display = 'none';
+        };
+        document.getElementById('closeRevenueByEventModal').onclick = function() {
+            document.getElementById('revenueByEventModal').style.display = 'none';
+        };
+        document.getElementById('closePopularEventModal').onclick = function() {
+            document.getElementById('popularEventModal').style.display = 'none';
+        };
+        document.getElementById('closeEventWithMostRevenueModal').onclick = function() {
+            document.getElementById('eventWithMostRevenueModal').style.display = 'none';
+        };
+        document.getElementById('closeReservationsByPeriodModal').onclick = function() {
+            document.getElementById('reservationsByPeriodModal').style.display = 'none';
+        };
+        document.getElementById('closeTotalRevenueByTicketTypeModal').onclick = function() {
+            document.getElementById('totalRevenueByTicketTypeModal').style.display = 'none';
+        };
+    </script>
+
+    <script>
+        // Get modals
+        var modals = {
+            'customerModal': document.getElementById("customerModal"),
+            'addCardModal': document.getElementById("addCardModal"),
+            'eventModal': document.getElementById("eventModal"),
+            'searchTicketsModal': document.getElementById("searchTicketsModal"),
+            'makeReservationModal': document.getElementById("makeReservationModal"),
+            'cancelReservationModal': document.getElementById("cancelReservationModal"),
+            'cancelEventModal': document.getElementById("cancelEventModal")
+        };
+
+        // Get buttons
+        var buttons = {
+            'createCustomerBtn': document.getElementById("createCustomerBtn"),
+            'addCardBtn': document.getElementById("addCardBtn"),
+            'createEventBtn': document.getElementById("createEventBtn"),
+            'searchTicketsBtn': document.getElementById("searchTicketsBtn"),
+            'makeReservationBtn': document.getElementById("makeReservationBtn"),
+            'cancelReservationBtn': document.getElementById("cancelReservationBtn"),
+            'cancelEventBtn': document.getElementById("cancelEventBtn")
+        };
+
+        // Get close buttons
+        var closeButtons = {
+            'closeCustomerModal': document.getElementById("closeCustomerModal"),
+            'closeEventModal': document.getElementById("closeEventModal"),
+            'closeAddCardModal' : document.getElementById("closeAddCardModal"),
+            'closeSearchTicketsModal': document.getElementById("closeSearchTicketsModal"),
+            'closeMakeReservationModal': document.getElementById("closeMakeReservationModal"),
+            'closeCancelReservationModal': document.getElementById("closeCancelReservationModal"),
+            'closeCancelEventModal': document.getElementById("closeCancelEventModal")
+        };
+
+        // Open modals on button click
+        buttons.createCustomerBtn.onclick = function() { modals.customerModal.style.display = "block"; };
+        buttons.addCardBtn.onclick = function() { modals.addCardModal.style.display = "block"; };
+        buttons.createEventBtn.onclick = function() { modals.eventModal.style.display = "block"; };
+        buttons.searchTicketsBtn.onclick = function() { modals.searchTicketsModal.style.display = "block"; };
+        buttons.makeReservationBtn.onclick = function() { modals.makeReservationModal.style.display = "block"; };
+        buttons.cancelReservationBtn.onclick = function() { modals.cancelReservationModal.style.display = "block"; };
+        buttons.cancelEventBtn.onclick = function() { modals.cancelEventModal.style.display = "block"; };
+
+        // Close modals on 'X' click or outside click
+        closeButtons.closeCustomerModal.onclick = function() { modals.customerModal.style.display = "none"; };
+        closeButtons.closeAddCardModal.onclick = function() { modals.addCardModal.style.display = "none"; };
+        closeButtons.closeEventModal.onclick = function() { modals.eventModal.style.display = "none"; };
+        closeButtons.closeSearchTicketsModal.onclick = function() { modals.searchTicketsModal.style.display = "none"; };
+        closeButtons.closeMakeReservationModal.onclick = function() { modals.makeReservationModal.style.display = "none"; };
+        closeButtons.closeCancelReservationModal.onclick = function() { modals.cancelReservationModal.style.display = "none"; };
+        closeButtons.closeCancelEventModal.onclick = function() { modals.cancelEventModal.style.display = "none"; };
+
+        // Close modals if clicked outside
+        window.onclick = function(event) {
+            for (var modalId in modals) {
+                if (event.target == modals[modalId]) {
+                    modals[modalId].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

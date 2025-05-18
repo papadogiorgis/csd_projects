@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+</head>
+<body>
+    <h2>New Event Creation</h2>
+    <form action="EventCreation" method="POST">
+        <label for="name">Event name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="date">Event date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+        
+        <label for="time">Event time:</label>
+        <input type="time" id="time" name="time" required><br><br>
+        
+        <label for="type">Event type:</label>
+        <input type="text" id="type" name="type" required><br><br>
+        
+        <label for="capacity">Event capacity:</label>
+        <input type="number" id="capacity" name="capacity" min="10" required><br><br>
+        
+        <label for="VIPCapacity">VIP capacity:</label>
+        <input type="number" id="VIPCapacity" name="VIPCapacity"required><br><br>
+        
+        <label for="VIPCost">VIP ticket price:</label>
+        <input type="number" id="VIPCost" name="VIPCost" min="10" required><br><br>
+
+        <label for="GenCapacity">General capacity:</label>
+        <input type="number" id="GenCapacity" name="GenCapacity"required><br><br>
+        
+        <label for="GenCost">General ticket price:</label>
+        <input type="number" id="GenCost" name="GenCost" min="5" required><br><br>
+
+        <input type="submit" value="Create">
+    </form>
+</body>
+</html>

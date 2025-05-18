@@ -1,0 +1,122 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<servlet>
+        <servlet-name>CustomerRegistration</servlet-name>
+        <servlet-class>Servlets.CustomerRegistration</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CustomerRegistration</servlet-name>
+        <url-pattern>/CustomerRegistration</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EventCreation</servlet-name>
+        <servlet-class>Servlets.EventCreation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EventCreation</servlet-name>
+        <url-pattern>/EventCreation</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ExtraCard</servlet-name>
+        <servlet-class>Servlets.ExtraCard</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ExtraCard</servlet-name>
+        <url-pattern>/ExtraCard</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AvailableSeats</servlet-name>
+        <servlet-class>Servlets.AvailableSeats</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AvailableSeats</servlet-name>
+        <url-pattern>/AvailableSeats</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>MakeReservation</servlet-name>
+        <servlet-class>Servlets.MakeReservation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MakeReservation</servlet-name>
+        <url-pattern>/MakeReservation</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CancelReservation</servlet-name>
+        <servlet-class>Servlets.CancelReservation</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CancelReservation</servlet-name>
+        <url-pattern>/CancelReservation</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CancelEvent</servlet-name>
+        <servlet-class>Servlets.CancelEvent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CancelEvent</servlet-name>
+        <url-pattern>/CancelEvent</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>SeatsState</servlet-name>
+        <servlet-class>Servlets.SeatsState</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SeatsState</servlet-name>
+        <url-pattern>/SeatsState</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>RevenueByEvent</servlet-name>
+        <servlet-class>Servlets.RevenueByEvent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RevenueByEvent</servlet-name>
+        <url-pattern>/RevenueByEvent</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>PopularEvent</servlet-name>
+        <servlet-class>Servlets.PopularEvent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PopularEvent</servlet-name>
+        <url-pattern>/PopularEvent</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ReservationsByPeriod</servlet-name>
+        <servlet-class>Servlets.ReservationsByPeriod</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReservationsByPeriod</servlet-name>
+        <url-pattern>/ReservationsByPeriod</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>MostProfitable</servlet-name>
+        <servlet-class>Servlets.MostProfitable</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MostProfitable</servlet-name>
+        <url-pattern>/MostProfitable</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RevenueByTicketType</servlet-name>
+        <servlet-class>Servlets.RevenueByTicketType</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RevenueByTicketType</servlet-name>
+        <url-pattern>/RevenueByTicketType</url-pattern>
+    </servlet-mapping>
+</web-app>
