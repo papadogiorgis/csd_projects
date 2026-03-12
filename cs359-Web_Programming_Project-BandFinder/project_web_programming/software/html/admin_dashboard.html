@@ -1,0 +1,100 @@
+<!-- html/admin_dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Admin Dashboard">
+        <meta name="keywords" content="dashboard, admin, Papadakis, Georgios">
+        <meta name="author" content="Papadakis Georgios">
+        <title>Admin Dashboard</title>
+        <link rel="stylesheet" href="../css/styles.css">
+        <!-- load google charts -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <style>
+            body{padding: 0;}
+            .nav-links button {background-color: black; color: white; padding: 10px 20px; cursor: pointer; font-size: 1rem; border-radius: 25px;}
+            .nav-links button:hover, .nav-links button.active {background-color: white; color: black;}
+            .dashboard-container{padding: 20px;}
+            .tab-content {display: none;}
+            .tab-content.active {display: block;}
+
+            table{width: 100%; margin-top: 10px;}
+            th, td{padding: 15px;}
+        </style>
+    </head>
+
+    <body>
+        <nav class="admin-nav">
+            <h2>BandFinder Admin</h2>
+            <div class="nav-links">
+                <button onclick="switchTab('users')" class="active" id="btn-users">Manage Users</button>
+                <button onclick="switchTab('reviews')" id="btn-reviews">Manage Reviews</button>
+                <button onclick="switchTab('stats')" id="btn-stats">Stats</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="dashboard-container">
+            <!-- users -->
+            <div id="tab-users" class="tab-content active">
+                <h3>Register Users</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body"></tbody>
+                </table>
+            </div>
+
+            <!-- reviews -->
+            <div id="tab-reviews" class="tab-content">
+                <h3>Pending Reviews</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Band</th>
+                            <th>Reviewer</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reviews-table-body"></tbody>
+                </table>
+            </div>
+
+            <!-- stats -->
+            <div id="tab-stats" class="tab-content">
+                <h3>Stats</h3>
+                <div class="stats-grid">
+                    <div class="summary-card">
+                        Total Users vs Bands
+                        <div id="user-band-chart" style="width: 100%; height: 250px;"></div>
+                    </div>
+                    <div class="summary-card">
+                        Platform Earnings
+                        <div id="revenue-display" class="revenue-text">0.00€</div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>Bands per City</h4>
+                        <div id="city-chart" style="width: 100%; height: 250px;"></div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>Public vs Private Events</h4>
+                        <div id="event-type-chart" style="width: 100%; height: 250px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/admin.js"></script>
+    </body>
+</html>

@@ -1,0 +1,178 @@
+<!-- html/user_dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="User Dashboard">
+        <meta name="keywords" content="dashboard, user, Papadakis, Georgios">
+        <meta name="author" content="Papadakis Georgios">
+        <title>User Dashboard</title>
+        <link rel="stylesheet" href="../css/styles.css">
+        <style>
+            .dashboard-nav {
+                padding: 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .nav-items button{
+                background-color: black;
+                color: white;
+                margin: 0 10px;
+                cursor: pointer;
+                font-size: 1rem;
+                padding: 10px 15px;
+                border-radius: 25px;
+            }
+            .nav-items button.active, .nav-items buton:hover{
+                background-color: white;
+                color: black;
+            }
+            .container {padding: 20px; max-width: 100%; margin: 0 auto;}
+            .tab-content {display: none;}
+            .tab-content.active {display: block;}
+            .event-card{
+                border: 2px solid black;
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 25px;
+            }
+            .event-header{display: flex; justify-content: space-between; border-bottom: 2px solid black; padding-bottom: 10px; margin-bottom: 10px;}
+            .status-badge {padding: 5px 10px; border-radius: 25px; font-weight: bold;}
+            .status-requested{background: yellow;}
+            .status-rejected{background: red;}
+            .status-tobedone{background: green;}
+            .status-done{background: blue;}
+            .chat-box{
+                border: 2px solid black;
+                height: 300px;
+                overflow-y: scroll;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            .message{margin: 5px 0; padding: 10px; border-radius: 5px; max-width: 60%;}
+            .msg-user{margin-left: auto; text-align: right;}
+            .msg-band{border: 2px solid black;}
+            .modal{
+                display: none;
+                position: fixed;
+                z-index: 100;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+            }
+            .modal-content{
+                background-color: white;
+                margin: 10% auto;
+                padding: 20px;
+                border-radius: 25px;
+                width: 50%;
+            }
+            .close{float: right; font-size: 30px; font-weight: bold; cursor: pointer;}
+        </style>
+    </head>
+
+    <body>
+        <nav class="dashboard-nav">
+            <h2>User Dashboard</h2>
+            <div class="nav-items">
+                <button onclick="showTab('public')" class="active" id="btn-public">Public Events</button>
+                <button onclick="showTab('booking')" id="btn-booking">Book a Band</button>
+                <button onclick="showTab('my-events')" id="btn-my-events">My Events</button>
+                <button onclick="window.location.href='profile.html'">My Profile</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- public events -->
+            <div id="tab-public" class="tab-content active">
+                <h3>Public Events</h3>
+                <button onclick="sortEventsByDistance()" class="verify-btn">Sort by Distance from My Home</button>
+                <div id="public-events-list" style="margin-top: 20px;"></div>
+            </div>
+
+            <!-- book band -->
+            <div id="tab-booking" class="tab-content">
+                <h3>Book a Private Event</h3>
+                <p>Select a band and fill in the details. Prices: Baptism (700€), Wedding (1000€), Party (500€).</p>
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label>Select Band</label>
+                        <select id="band-select" name="band_id" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Event Type</label>
+                        <select name="event_category" required>
+                            <option value="party">Party (500€)</option>
+                            <option value="baptism">Baptism (700€)</option>
+                            <option value="wedding">Wedding (1000€)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="datetime-local" name="event_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description / Requirements</label>
+                        <textarea name="description" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Request Event</button>
+                </form>
+            </div>
+
+            <!-- my events -->
+            <div id="tab-my-events" class="tab-content">
+                <h3>My Private Requests</h3>
+                <div id="my-events-list"></div>
+            </div>
+        </div>
+
+        <!-- chat -->
+        <div id="chat-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeChat()">&times;</span>
+                <h3>Chat with Band</h3>
+                <div id="chat-history" class="chat-box"></div>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="chat-input" placeholder="Type a message" style="width: 80%;">
+                    <input type="hidden" id="chat-event-id">
+                    <button onclick="sendMessage()" class="submit-btn" style="width: 20%; margin-top: 5px;">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- review modal-->
+        <div id="review-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeReview()">&times;</span>
+                <h3>Write a review for <span id="review-band-name-display"></span></h3>
+                <form id="review-form">
+                    <input type="hidden" id="review-band-name" name="band_name">
+                    <div class="form-group">
+                        <label>Your name</label>
+                        <input type="text" name="sender_name" id="review-sender-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rating (1-5)</label>
+                        <input type="number" name="rating" min="1" max="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Review</label>
+                        <textarea name="review" required style="width: 100%; height:100px;"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit Review</button>
+                </form>
+            </div>
+        </div>
+
+        <script src="../js/user_dashboard.js" type="module"></script>
+    </body>
+</html>

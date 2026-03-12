@@ -1,0 +1,228 @@
+<!-- html/index.html -->
+ 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="sign, up, in, band, finder, registration, Papadakis, Georgios">
+        <meta name="author" content="Papadakis Georgios">
+        <title>Band Finder - Home</title>
+        <link rel="stylesheet" href="../css/styles.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.13.1/OpenLayers.js"></script>
+        <style>
+            .navbar{
+                background-color: #444;
+                overflow: hidden;
+                padding: 10px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .navbar a{
+                color: white;
+                text-decoration: none;
+                padding: 10px 15px;
+                border-radius: 10px;
+                margin-left: 5px;
+            }
+            .navbar a:hover{
+                background-color: white;
+                color: black;
+            }
+            .navbar .logo{
+                font-size: 2rem;
+                font-weight: bold;
+                color: white;
+            }
+            .auth-buttons a{
+                background-color: black;
+                font-weight: bold;
+            }
+            .tabs{
+                display: flex;
+                justify-content: center;
+                padding: 10px;
+                margin-bottom: 20px;
+            }
+            .tabs button{
+                background: #111;
+                color: white;
+                padding: 10px 20px;
+                cursor: pointer;
+                font-size: 1rem;
+                border-radius: 20px;
+            }
+            .tabs button.active{
+                background: white;
+                color: black;
+                font-weight: bold;
+            }
+            .tab-content{
+                display: none;
+                padding: 20px;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            .tab-content.active{display: block;}
+            .filters{
+                padding: 15px;
+                border-radius: 10px;
+                margin-bottom: 20px;
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .filters input, .filters button{
+                padding: 10px;
+                border-radius: 10px;
+                border: 1px solid black;
+            }
+            .grid-container{
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+            }
+            .card{
+                border: 1px solid black;
+                padding: 15px;
+                border-radius: 10px;
+            }
+            #map-large{
+                width: 100%;
+                height: 500px;
+                border: 2px solid black;
+            }
+            .ai-container{
+                display: flex;
+                gap: 20px;
+            }
+            .ai-box{
+                flex: 1;
+                border: 1px solid black;
+                padding: 20px;
+                border-radius: 10px;
+            }
+            .chat-history{
+                height: 300px;
+                overflow-y: auto;
+                border: 1px solid black;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            .bot-msg{
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+            .user-msg{
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 5px;
+                text-align: right;
+            }
+            footer{
+                background: #222;
+                color: white;
+                padding: 20px;
+                margin-top: 40px;
+                text-align: center;
+            }
+            .footer-links a{
+                color: white;
+                background: #111;
+                margin: 0 10px;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!--navigation-->
+        <nav class="navbar">
+            <div class="logo">BandFinder</div>
+            <div class="auth-buttons">
+                <a href="login.html">Login</a>
+                <a href="simpleuser.html">Sign Up as User</a>
+                <a href="band.html">Sign Up as a Band</a>
+            </div>
+        </nav>
+
+        <!--main tabs-->
+        <div class="tabs">
+            <button onclick="switchVisitorTab('bands')" class="active" id="btn-bands">Bands</button>
+            <button onclick="switchVisitorTab('events')" id="btn-events">Public Events</button>
+            <button onclick="switchVisitorTab('map')" id="btn-map">Events' Map</button>
+            <button onclick="switchVisitorTab('ai')" id="btn-ai">AI Search and Chat</button>
+        </div>
+
+        <!--bands tab-->
+        <div id="tab-bands" class="tab-content active">
+            <div class="filters">
+                <input type="text" id="filter-genre" placeholder="Music Genre">
+                <input type="text" id="filter-city" placeholder="City">
+                <input type="number" id="filter-year" placeholder="Founded Year">
+                <button onclick="loadBands()" class="verify-btn">Search Band</button>
+            </div>
+            <div id="bands-grid" class="grid-container"></div>
+        </div>
+
+        <!--events tab-->
+        <div id="tab-events" class="tab-content">
+            <div class="filters">
+                <input type="text" id="ev-filter-genre" placeholder="Music Genre">
+                <input type="text" id="ev-filter-city" placeholder="City">
+                <input type="date" id="ev-filter-date">
+                <button onclick="loadEvents()" class="verify-btn">Search Events</button>
+            </div>
+            <div id="events-grid" class="grid-container"></div>
+        </div>
+
+        <!--map tab-->
+        <div id="tab-map" class="tab-content">
+            <h3>Map of Future Events</h3>
+            <div id="map-large"></div>
+        </div>
+
+        <!--ai tab-->
+        <div id="tab-ai" class="tab-content">
+            <div class="ai-container">
+                <!--natural language to sql-->
+                <div class="ai-box">
+                    <h3>"AI" Search (natural language to sql)</h3>
+                    <p>e.g. <i>Bands in Heraklion that play rock.</i></p>
+                    <div style="display: flex; gap:5px;">
+                        <input type="text" id="nl-input" placeholder="Natural Language..." style="width: 100%;">
+                        <button onclick="runAiSearch()" class="verify-btn">Go</button>
+                    </div>
+                    <div id="nl-result" style="margin-top: 20px; border-top:2px solid black; padding-top:10px;"></div>
+                </div>
+                <!--music llm chat-->
+                <div class="ai-box">
+                    <h3>Ask about music genres</h3>
+                    <div id="music-chat-history" class="chat-history">
+                        <div class="bot-msg">Hi! Ask me about music genres.</div>
+                    </div>
+                    <div style="display: flex; gap:5px;">
+                        <input type="text" id="music-qa-input" placeholder="Question..." style="width: 100%;">
+                        <button onclick="askMusicAi()" class="verify-btn">Ask</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--footer with external links-->
+        <footer>
+            <h3>Useful Links and Plugins</h3>
+            <div class="footer-links">
+                <a href="https://civilprotection.gov.gr/arxeio-imerision-xartwn" target="_blank">Fire Prediction Maps</a>
+                <a href="https://meteo.gr/" target="_blank">Weather Forecast</a>
+                <a href="https://musicmap.info/" target="_blank">Musicmap | The Genealogy and History of Popular Music Genres(similar site)</a>
+            </div>
+            <p>&copy; 2025 BandFinder - Papadakis Georgios. All rights reserved.</p>
+        </footer>
+
+        <script src="../js/visitor.js" type="module"></script>
+        <script src="../js/main.js" type="module"></script>
+    </body>
+</html>

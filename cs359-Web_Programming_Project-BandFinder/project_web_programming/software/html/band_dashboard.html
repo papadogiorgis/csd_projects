@@ -1,0 +1,149 @@
+<!-- html/band_dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Band Dashboard">
+        <meta name="keywords" content="dashboard, band, Papadakis, Georgios">
+        <meta name="author" content="Papadakis Georgios">
+        <title>Band Dashboard</title>
+        <link rel="stylesheet" href="../css/styles.css">
+        <style>
+            .dashboard-nav {
+                padding: 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .nav-items button{
+                background-color: black;
+                color: white;
+                margin: 0 10px;
+                cursor: pointer;
+                font-size: 1rem;
+                padding: 10px 15px;
+                border-radius: 25px;
+            }
+            .nav-items button.active, .nav-items buton:hover{
+                background-color: white;
+                color: black;
+            }
+            .container {padding: 20px; max-width: 100%; margin: 0 auto;}
+            .tab-content {display: none;}
+            .tab-content.active {display: block;}
+            .event-card{
+                border: 2px solid black;
+                padding: 15px;
+                margin-bottom: 15px;
+                border-radius: 25px;
+            }
+            .event-header{display: flex; justify-content: space-between; border-bottom: 2px solid black; padding-bottom: 10px; margin-bottom: 10px;}
+            .btn-accept{background-color: green; padding: 5px 10px; border-radius: 5px; cursor: pointer;}
+            .btn-reject{background-color: red; padding: 5px 10px; border-radius: 5px; cursor: pointer;}
+            .chat-box{
+                border: 2px solid black;
+                height: 300px;
+                overflow-y: scroll;
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            .message{margin: 5px 0; padding: 10px; border-radius: 5px; max-width: 60%;}
+            .msg-band{margin-left: auto; text-align: right;}
+            .msg-user{border: 2px solid black;}
+            .modal{
+                display: none;
+                position: fixed;
+                z-index: 100;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+            }
+            .modal-content{
+                background-color: white;
+                margin: 10% auto;
+                padding: 20px;
+                border-radius: 25px;
+                width: 50%;
+            }
+            .close{float: right; font-size: 30px; font-weight: bold; cursor: pointer;}
+        </style>
+    </head>
+    <body>
+        <nav class="dashboard-nav">
+            <h2>Band Dashboard</h2>
+            <div class="nav-items">
+                <button onclick="showTab('public')" class="active" id="btn-public">Public Events</button>
+                <button onclick="showTab('private')" id="btn-private">Private Requests</button>
+                <button onclick="showTab('profile')" id="btn-profile">Profile</button>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <div class="container">
+            <!-- public events -->
+            <div id="tab-public" class="tab-content active">
+                <h3>Manage Public Events</h3>
+                <div style="padding: 15px; border-radius:10px; margin-bottom:20px;">
+                    <h4>Create New Public Event</h4>
+                    <form id="public-event-form">
+                        <input type="text" name="title" placeholder="Event Title" required>
+                        <input type="datetime-local" name="event_date" required>
+                        <input type="text" id="event_city" name="city" placeholder="City" required>
+                        <button type="button" id="verify-city-btn" class="verify-btn">Find City Coordinates</button>
+                        <div id="city-result" style="display: none; margin-top:5px;"></div>
+                        <input type="hidden" name="lat" id="lat">
+                        <input type="hidden" name="lon" id="lon">
+                        <textarea name="description" placeholder="Description" required></textarea>
+                        <button type="submit" class="submit-btn">Create Public Event</button>
+                    </form>
+                </div>
+                <div id="public-events-list"></div>
+            </div>
+
+            <!-- private requests -->
+            <div id="tab-private" class="tab-content">
+                <h3>Private Requests</h3>
+                <div id="requests-list"></div>
+            </div>
+
+            <!-- profile tab -->
+            <div id="tab-profile" class="tab-content">
+                <h3>My Profile</h3>
+                <button onclick="window.location.href='profile.html'" class="submit-btn">Edit Profile Details</button>
+                <h4>My Reviews</h4>
+                <div id="reviews-list"></div>
+            </div>
+        </div>
+
+        <!-- justification modal -->
+        <div id="justify-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeJustify()">&times;</span>
+                <h3>Respond to Request</h3>
+                <textarea id="justify-text" placeholder="Justification for rejection or acceptance..." style="width: 100%; height:100px;"></textarea>
+                <input type="hidden" id="action-event-id">
+                <input type="hidden" id="action-type">
+                <button onclick="submitAction()" class="submit-btn">Submit Decision</button>
+            </div>
+        </div>
+
+        <!-- chat modal -->
+        <div id="chat-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeChat()">&times;</span>
+                <h3>Chat with User</h3>
+                <div id="chat-history" class="chat-box"></div>
+                <div style="display: flex; gap:10px;">
+                    <input type="text" id="chat-input" placeholder="Type a message..." style="width: 80%;">
+                    <input type="hidden" id="chat-event-id">
+                    <button onclick="sendMessage()" class="submit-btn" style="width: 20%;">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/band_dashboard.js" type="module"></script>
+    </body>
+</html>

@@ -1,0 +1,99 @@
+<!-- html/review_test.html -->
+
+<!-- This is a standalone tool to veify my API using ajax+html-->
+ 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="REST API Test Tool">
+        <meta name="keywords" content="rest, api, test, tool, Papadakis, Georgios">
+        <meta name="author" content="Papadakis Georgios">
+        <title>Rest API Test Tool</title>
+        <style>
+            .test-container {
+                max-width: 800px;
+                margin: 20px auto;
+                background: white;
+                padding: 20px;
+                border-radius: 25px;
+            }
+            .section{
+                background: white;
+                padding: 15px;
+                margin-bottom: 20px;
+                border: 2px solid black;
+                border-radius: 10px;
+            }
+            h3 {margin-top: 0; border-bottom: 1px solid black; padding-bottom: 5px;}
+            .result-box{
+                background: #222222;
+                color: white;
+                padding: 10px;
+                font-family: monospace;
+                min-height: 50px;
+                white-space: pre-wrap;
+                margin-top: 10px;
+            }
+            input, select, textarea {width: 100%; margin-bottom: 10px; padding: 5px;}
+            button {
+                width: auto;
+                padding: 5px 15px;
+                background-color: black;
+                color: white;
+                border-radius: 25px;
+                cursor: pointer;
+            }
+            button:hover {background-color: white; color: black;}
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>Review API Tester</h1>
+        </header>
+
+        <div class="test-container">
+            <div class="section">
+                <h3>Submit Review</h3>
+                <input type="text" id="post-band" placeholder="Band Name">
+                <input type="text" id="post-sender" placeholder="Sender Name">
+                <textarea id="post-text" placeholder="Review Text"></textarea>
+                <input type="number" id="post-rating" placeholder="Rating (1-5)" min="1" max="5">
+                <button onclick="submitReview()">Submit</button>
+                <div id="post-result" class="result-box">Result...</div>
+            </div>
+
+            <div class="section">
+                <h3>Get Reviews</h3>
+                <input type="text" id="get-band" placeholder="Band Name (or 'all')">
+                <div style="display:flex; gap:10px;">
+                    <input type="number" id="get-from" placeholder="(Optional) Rating From">
+                    <input type="number" id="get-to" placeholder="(Optional) Rating To">
+                </div>
+                <button onclick="getReviews()">Get</button>
+                <div id="get-result" class="result-box">Result...</div>
+            </div>
+
+            <div class="section">
+                <h3>Update Status</h3>
+                <input type="number" id="put-id" placeholder="Review ID">
+                <select id="put-status">
+                    <option value="published">published</option>
+                    <option value="rejected">rejected</option>
+                </select>
+                <button onclick="updateStatus()">Update</button>
+                <div id="put-result" class="result-box">Result...</div>
+            </div>
+
+            <div class="section">
+                <h3>Delete Review</h3>
+                <input type="number" id="del-id" placeholder="Review ID">
+                <button onclick="deleteReview()">Delete</button>
+                <div id="del-result" class="result-box">Result...</div>
+            </div>
+        </div>
+
+        <script src="../js/review_test.js" type="module"></script>
+    </body>
+</html>

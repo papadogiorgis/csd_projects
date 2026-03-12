@@ -1,0 +1,169 @@
+<!-- html/band.html -->
+ 
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="Sign-Up Page">
+        <meta name="keywords" content="sign, up, registration, Papadakis, Georgios">
+        <meta name="author" content="Papadakis Georgios">
+        <title>Sign-Up Page</title>
+        <link rel="stylesheet" href="../css/styles.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>Registration Form</h1>
+        </header>
+
+        <!--form style switcher-->
+        <div class="form-switch">
+            <button onclick="window.location.href='simpleuser.html'">Simple User Form</button>
+            <button class="active" disabled>Band Form</button>
+            <button onclick="window.location.href='login.html'">Login</button>
+            <button onclick="window.location.href='index.html'">Home</button>
+        </div>
+
+        <form id="band-form" class="form-selection">
+            <h2>For Bands</h2>
+
+            <!--band account credentials-->
+            <div class="form-group">
+                <label for="band-username" class="required">Band Username</label>
+                <input type="text" id="band-username" name="username" 
+                pattern="[A-Za-z][A-Za-z0-9!@#$%&]{5,}" 
+                minlength="6" 
+                required 
+                title="Band Username">
+                <div class="error-message">Username must be of length of at least 6 characters. It must not start with a number or a symbol.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="band-email" class="required">Band's email</label>
+                <input type="email" id="band-email" name="email" required>
+                <div class="error-message">Enter a valid email address.</div>
+            </div>
+
+            <!--band password section-->
+            <div class="form-group">
+                <label for="band-password" class="required">Password</label>
+                <div class="password-container">
+                    <input type="password" id="band-password" name="password" 
+                    minlength="8" 
+                    maxlength="14" 
+                    required 
+                    title="Password">
+                    <button type="button" class="toggle-password" data-target="band-password">Show</button>
+                </div>
+                <div id="band-password-strength" class="band-password-strength"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="band-confirm-password" class="required">Confirm Password</label>
+                <div class="password-container">
+                    <input type="password" id="band-confirm-password" name="confirm-password" 
+                    minlength="8" 
+                    maxlength="14" 
+                    required 
+                    title="Confirm Password">
+                    <button type="button" class="toggle-password" data-target="band-confirm-password">Show</button>
+                </div>
+                <div class="error-message">Confirm your password.</div>
+                <div id="band-password-match-message" class="error-message"></div>
+            </div>
+
+            <!--band info-->
+            <div class="form-group">
+                <label for="band_name" class="required">Band Name</label>
+                <input type="text" id="band_name" name="band_name" 
+                minlength="3" 
+                maxlength="30" 
+                required 
+                title="Band Name">
+                <div class="error-message">Band Name must be 3-30 characters.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="music_genres" class="required">Music Genres</label>
+                <textarea id="music_genres" name="music_genres" 
+                minlength="3" 
+                maxlength="200" 
+                required 
+                title="Music Genres"></textarea>
+                <div class="error-message">Music Genres must be 3-200 characters.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="band_description" class="required">Band Description</label>
+                <textarea id="band_description" name="band_description" 
+                minlength="3" 
+                maxlength="1000" 
+                required 
+                title="Band Description"></textarea>
+                <div class="error-message">Band Description must be 3-1000 characters.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="members_number" class="required">Number of Members</label>
+                <input type="number" id="members_number" name="members_number" 
+                min="1" 
+                max="10" 
+                required 
+                title="Number of Members">
+                <div class="error-message">Number of members must be between 1 and 10.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="foundedYear" class="required">Foundation Year</label>
+                <input type="number" id="foundedYear" name="foundedYear" 
+                min="1960" 
+                max="2025" 
+                required 
+                title="Foundation Year">
+                <div class="error-message">Foundation year must be 1960 or later.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="band_city" class="required">City</label>
+                <input type="text" id="band_city" name="band_city" 
+                minlength="3" 
+                maxlength="30" 
+                required 
+                title="City">
+                <div class="error-message">City must be 3-30 characters.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="band-telephone" class="required">Telephone</label>
+                <input type="tel" id="band-telephone" name="telephone" 
+                pattern="[0-9]{10,14}" 
+                minlength="10" 
+                maxlength="14" 
+                required 
+                title="Telephone">
+                <div class="error-message">Telephone must be 10-14 digits.</div>
+            </div>
+
+            <!--optional band links-->
+            <div class="form-group">
+                <label for="webpage">Webpage Link</label>
+                <input type="url" id="webpage" name="webpage" 
+                title="Webpage Link">
+                <div class="error-message">Enter a valid http link.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="photo">Photo Link</label>
+                <input type="url" id="photo" name="photo" 
+                title="Photo Link">
+                <div class="error-message">Enter a valid http link.</div>
+            </div>
+
+            <div id="submission-message" class="submission-message"></div>
+
+            <button type="submit" class="submit-btn">Register</button>
+        </form>
+
+        <script src="../js/main.js" type="module"></script>
+    </body>
+</html>

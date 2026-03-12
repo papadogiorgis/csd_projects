@@ -1,0 +1,21 @@
+INSTALLATION INSTRUCTIONS - BAND FINDER PROJECT
+
+you need;
+1)Node.js (version 14 or newer)
+2)mysql server (XAMPP)
+
+installation and execution steps;
+1)open XAMPP
+2)start mysql
+3)the database is created automatically, you dont have to make it
+4)open cmd
+5)go to the backend folder (C:\.......\team20\software\backend)
+6)run the command 'npm install'
+7)run the command 'npm start'
+8)open your fav browser
+9)go to  http://localhost:3000/html/index.html to view the site
+10)go to http://localhost:3000/html/admin_login.html to login as admin.
+	->you have to use username = admin
+	->            and password = admiN12@*
+
+Papadakis Georgios 4975
