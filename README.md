@@ -12,7 +12,11 @@
 
 ### CS345 OPERATING SYSTEMS: ALL ASSIGNMENTS
 
+### CS359 WEB PROGRAMMING: BANDFINDER PROJECT
+
 ### CS360 FILES AND DATABASES: Ticket Reservation Database Project
+
+### CS484 COMPLEX NETWORK DYNAMICS: "Structure and Dynamics of Trust in Anonymous and Identified Online Networks"
 
 ### CS487 INTRODUCTION TO ARTIFICIAL INTELLIGENCE: Pac-Man Project of UC Berkeley
 
